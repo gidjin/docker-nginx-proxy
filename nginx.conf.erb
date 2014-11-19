@@ -1,0 +1,18 @@
+# Auto created <%= Time.now %> by env_reader generator
+<% unless aliases.nil? %>
+server {
+  server_name <%= aliases.join(' ') %>;
+  return 301 $scheme://<%= main %>$request_uri;
+}
+<% end %>
+server {
+  server_name <%= main %>;
+  location / {
+    proxy_set_header Host $host;
+    proxy_set_header X-Real-IP $remote_addr;
+    proxy_pass http://<%= ip %>:<%= port %>;
+  }
+<% if wordpress? %>
+  rewrite ^/admin http://<%= main %>/wordpress/wp-admin permanent;
+<% end %>
+}
