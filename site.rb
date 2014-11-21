@@ -4,8 +4,6 @@ class Site
   attr_reader :aliases
   attr_accessor :ip
   attr_accessor :port
-  attr_accessor :wordpress
-  alias_method :wordpress?, :wordpress
 
   def valid?
     !name.nil? && !main.nil? && !ip.nil? && !port.nil?
