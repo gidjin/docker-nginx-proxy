@@ -1,0 +1,22 @@
+# Auto created {{datetime}} by confd generator
+{{range $dir := lsdir "/test"}}{{$main_url_key := printf "/test/%s/main_url" $dir}}{{$main_url := getv $main_url_key}}
+upstream {{base $dir}}_pool {
+  {{$app := printf "/test/%s/server*" $dir}}{{range getvs $app}}
+    server {{ . }};
+  {{end}}
+}
+{{$alias_key := printf "/test/%s/aliases/*" $dir}}{{$aliases := getvs $alias_key}}{{if $aliases}}
+server {
+  server_name {{join $aliases ","}};
+  return 301 $scheme://{{$main_url}}$request_uri;
+}
+{{end}}
+server {
+  server_name {{$main_url}};
+  location / {
+    proxy_set_header Host $host;
+    proxy_set_header X-Real-IP $remote_addr;
+    proxy_pass http://{{base $dir}}_pool;
+  }
+}
+{{end}}

@@ -11,10 +11,18 @@ RUN apt-get update &&\
 ENV HOME=/root
 ENV GOPATH=/root/gopath
 ENV PATH=/root/gopath/bin:$PATH
+# ENV ETCD_ENDPOINT="$(ifconfig docker0 | awk '/\<inet\>/ { print $2}'):4001"
 RUN go get github.com/tools/godep
 RUN go get github.com/kelseyhightower/confd
-RUN bash -c "cd /root/gopath/src/github.com/kelseyhightower/confd && ./build && ./install"
+RUN bash -c "cd /root/gopath/src/github.com/kelseyhightower/confd && ./build && ./install && mkdir -p /etc/confd/{conf.d,templates}"
+COPY nginx_app_proxy.toml /etc/confd/conf.d/
+COPY nginx_app_proxy.conf.tmpl /etc/confd/templates/
+# RUN confd -onetime -backend etcd -node 10.1.42.1:4001
 
+RUN apt-get clean &&\
+    rm -rf /tmp/* /var/tmp/* &&\
+    rm -rf /var/lib/apt/lists/* &&\
+    rm -f /etc/dpkg/dpkg.cfg.d/02apt-speedup
 
 # update config
 # EXPOSE 80

@@ -1,0 +1,7 @@
+[template]
+src = "nginx_app_proxy.conf.tmpl"
+dest = "/etc/nginx/sites-enabled/nginx_app_proxy.conf"
+keys = [
+  "/test"
+]
+check_cmd = "/usr/sbin/nginx -t"
