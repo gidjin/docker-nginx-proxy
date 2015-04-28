@@ -1,5 +1,5 @@
 # Auto created {{datetime}} by confd generator
-{{range $dir := lsdir "/services/web"}}{{$main_url := getv (printf "/services/web/%s/main_url" $dir)}}
+{{range $dir := lsdir "/services/web"}}{{$main_domain := getv (printf "/services/web/%s/main_domain" $dir)}}
 upstream {{base $dir}}_pool {
   {{range jsonArray (getv (printf "/services/web/%s/servers" $dir))}}
     server {{ .ip }}:{{ .port }};
@@ -8,11 +8,11 @@ upstream {{base $dir}}_pool {
 {{$alias_key := printf "/services/web/%s/aliases" $dir}}{{if exists $alias_key}}
 server {
   server_name {{getv $alias_key}};
-  return 301 $scheme://{{$main_url}}$request_uri;
+  return 301 $scheme://{{$main_domain}}$request_uri;
 }
 {{end}}
 server {
-  server_name {{$main_url}};
+  server_name {{$main_domain}};
   location / {
     proxy_set_header Host $host;
     proxy_set_header X-Real-IP $remote_addr;
