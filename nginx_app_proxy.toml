@@ -1,8 +1,0 @@
-[template]
-src = "nginx_app_proxy.conf.tmpl"
-dest = "/etc/nginx/sites-enabled/nginx_app_proxy.conf"
-keys = [
-  "/services/web"
-]
-check_cmd = "/usr/sbin/nginx -t"
-reload_cmd = "/usr/sbin/service nginx reload"

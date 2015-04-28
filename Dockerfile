@@ -15,8 +15,8 @@ ENV PATH=/root/gopath/bin:$PATH
 RUN go get github.com/tools/godep
 RUN go get github.com/kelseyhightower/confd
 RUN cd /root/gopath/src/github.com/kelseyhightower/confd && ./build && ./install && mkdir -p /etc/confd/{conf.d,templates}
-COPY nginx_app_proxy.toml /etc/confd/conf.d/
-COPY nginx_app_proxy.conf.tmpl /etc/confd/templates/
+COPY nginx.toml /etc/confd/conf.d/
+COPY nginx.conf.tmpl /etc/confd/templates/
 COPY start-up.sh /usr/local/bin/start-up.sh
 RUN chmod 755 /usr/local/bin/start-up.sh
 
