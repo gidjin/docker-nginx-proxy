@@ -1,16 +1,10 @@
 # Auto created {{datetime}} by confd generator
-{{range $main_domain := lsdir "/services/web"}}
+{{range $main_domain := lsdir "/services"}}
 upstream {{base $main_domain}}_pool {
-  {{range gets (printf "/services/web/%s/servers/*" $main_domain)}}{{$data := json .Value}}
-    server {{ $data.ip }}:{{ $data.port }};
+  {{range gets (printf "/services/%s/*" $main_domain)}}
+    server {{ .Value }};
   {{end}}
 }
-{{$alias_key := printf "/services/web/%s/aliases" $main_domain}}{{if exists $alias_key}}
-server {
-  server_name {{getv $alias_key}};
-  return 301 $scheme://{{$main_domain}}$request_uri;
-}
-{{end}}
 server {
   server_name {{$main_domain}};
   location / {

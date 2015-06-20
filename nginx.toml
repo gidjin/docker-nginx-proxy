@@ -2,7 +2,7 @@
 src = "nginx.conf.tmpl"
 dest = "/etc/nginx/sites-enabled/proxy.conf"
 keys = [
-  "/services/web"
+  "/services"
 ]
 check_cmd = "/usr/sbin/nginx -t"
 reload_cmd = "/usr/sbin/nginx -s reload"
