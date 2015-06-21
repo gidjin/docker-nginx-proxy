@@ -1,6 +1,6 @@
 [template]
 src = "nginx.conf.tmpl"
-dest = "/etc/nginx/sites-enabled/proxy.conf"
+dest = "/etc/nginx/conf.d/proxy.conf"
 keys = [
   "/services"
 ]
