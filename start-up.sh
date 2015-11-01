@@ -3,9 +3,6 @@
 # un-official strict mode
 set -euo pipefail
 
-export ETCD_PORT=${ETCD_PORT:-4001}
-export HOST_IP=${HOST_IP:-172.17.42.1}
-export ETCD=$HOST_IP:$ETCD_PORT
 export CONFIG_REFRESH=${CONFIG_REFRESH:-300}
 
 echo "[nginx] booting container. ETCD: $ETCD."
